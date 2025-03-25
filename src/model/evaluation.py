@@ -3,7 +3,7 @@ Funciones para evaluar el modelo de detección de objetos.
 """
 
 import time
-import os
+import os 
 from src.data.visualization import visualize_predictions
 
 def evaluate_model(model, test_dataset, class_names, readable_class_names, 

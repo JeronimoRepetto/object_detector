@@ -4,7 +4,7 @@ Funciones para entrenar el modelo de detección de objetos.
 
 import tensorflow as tf
 import pandas as pd
-import os
+import os 
 import time
 from tensorflow.keras.mixed_precision import set_global_policy
 

@@ -96,7 +96,7 @@ def main():
         models_dir=MODELS_DIR,
         logs_dir=LOGS_DIR
     )
-    
+     
     # Evaluar modelo
     print("\n13. Evaluando modelo...")
     evaluate_model(

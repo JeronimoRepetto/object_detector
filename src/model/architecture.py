@@ -26,8 +26,7 @@ def build_model(num_classes, input_shape=(416, 416, 3)):
     )
     
     # Congelar modelo base inicialmente
-    base_model.trainable = False
-    
+    base_model.trainable = False 
     # Añadir capas de detección
     x = base_model.output
     x = tf.keras.layers.GlobalAveragePooling2D()(x)

@@ -24,7 +24,7 @@ MAX_TEST_ANNOTATIONS = None
 # Configuración del modelo
 IMG_SIZE = (416, 416)
 BATCH_SIZE = 16
-EPOCHS = 10
+EPOCHS = 10 
 LEARNING_RATE = 0.001
 
 # Directorios de salida

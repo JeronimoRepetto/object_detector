@@ -1,0 +1,70 @@
+# Ignorar estrictamente el entorno virtual - CRÍTICO
+/env/
+/venv/
+/.env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Archivos de modelos y checkpoints
+*.h5
+*.pb
+*.ckpt
+*.ckpt.*
+*.tflite
+saved_model/
+models/
+checkpoints/
+**/deployment_model/
+
+# Logs
+logs/
+*.log
+tensorboard_logs/
+
+# Datasets (potencialmente grandes)
+dataset/
+data/
+images/
+*.tfrecord
+
+# IDEs y editores
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Archivos específicos de tu proyecto
+predictions/
+examples/
+*.csv
+*.json
+
+# Entornos locales
+.env
+.venv
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

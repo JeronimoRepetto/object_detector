@@ -21,15 +21,15 @@ def export_saved_model(model, output_dir):
     saved_model_dir = os.path.join(output_dir, "saved_model")
     os.makedirs(saved_model_dir, exist_ok=True)
     
-    # Guardar modelo
-    model.save(saved_model_dir)
+    # Guardar modelo en formato SavedModel usando export
+    model.export(saved_model_dir)
     
     print(f"Modelo exportado en {time.time() - start_time:.2f} segundos a: {saved_model_dir}")
     
-    # También guardar en formato H5
-    h5_path = os.path.join(output_dir, "model.h5")
-    model.save(h5_path)
-    print(f"Modelo guardado en formato H5: {h5_path}")
+    # También guardar en formato Keras
+    keras_path = os.path.join(output_dir, "model.keras")
+    model.save(keras_path)
+    print(f"Modelo guardado en formato Keras: {keras_path}")
 
 def export_tflite_model(model, output_dir, quantize=True):
     """

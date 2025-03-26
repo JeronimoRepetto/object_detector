@@ -18,14 +18,14 @@ CLASS_DESCRIPTIONS_FILE = "/media/mturco/Storage/AI-Boost/boxes_Class_names/oidv
 
 # Controles de tamaño de conjunto de datos
 MAX_TRAIN_ANNOTATIONS = None
-MAX_VAL_ANNOTATIONS = None
-MAX_TEST_ANNOTATIONS = None
+MAX_VAL_ANNOTATIONS = None     # Limitado a 10 anotaciones para validación 
+MAX_TEST_ANNOTATIONS = None    # Limitado a 10 anotaciones para pruebas
 
 # Configuración del modelo
 IMG_SIZE = (416, 416)
 BATCH_SIZE = 16
 EPOCHS = 10 
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.01
 
 # Directorios de salida
 OUTPUT_DIR = os.path.join(os.getcwd(), "output")

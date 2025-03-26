@@ -43,7 +43,6 @@ tensorboard_logs/
 
 # Datasets (potencialmente grandes)
 dataset/
-data/
 images/
 *.tfrecord
 

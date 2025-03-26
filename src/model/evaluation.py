@@ -22,8 +22,24 @@ def evaluate_model(model, test_dataset, class_names, readable_class_names,
     print("\nEvaluando modelo en conjunto de prueba...")
     start_time = time.time()
     
+    # Asegurar que el formato de los datos sea compatible con el modelo
+    def ensure_compatible_format(dataset):
+        def process_batch(images, data_dict):
+            # Extraer labels y boxes del diccionario
+            labels = data_dict['classification']
+            boxes = data_dict['regression']
+            
+            # Tomar solo la primera etiqueta y caja para cada imagen en el lote
+            # para compatibilidad con la arquitectura actual del modelo
+            return images, {'classification': labels[:, 0], 'regression': boxes[:, 0, :]}
+        
+        return dataset.map(process_batch)
+    
+    # Aplicar la transformación
+    compatible_test_dataset = ensure_compatible_format(test_dataset)
+    
     # Evaluar modelo
-    results = model.evaluate(test_dataset)
+    results = model.evaluate(compatible_test_dataset)
     
     # Mostrar resultados
     print("\nResultados de evaluación:")
@@ -33,12 +49,13 @@ def evaluate_model(model, test_dataset, class_names, readable_class_names,
     for name, value in zip(metric_names, results):
         print(f"{name}: {value:.4f}")
     
-    # Visualizar algunas predicciones
+    # Visualizar predicciones usando el dataset original (no transformado)
     print("\nVisualizando predicciones en conjunto de prueba...")
     
     # Crear directorio para guardar ejemplos
     os.makedirs(output_dir, exist_ok=True)
     
-    # Visualizar predicciones
-    visualize_predictions(model, test_dataset, class_names, readable_class_names, 
-                        img_size=img_size, output_dir=output_dir)
+    # Usar directamente el dataset sin transformación extra
+    visualize_predictions(model, test_dataset, 
+                         class_names, readable_class_names, 
+                         img_size=img_size, output_dir=output_dir)

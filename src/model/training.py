@@ -28,9 +28,26 @@ def train_model(model, train_dataset, val_dataset, epochs=10, learning_rate=0.00
     print("\nIniciando entrenamiento del modelo...")
     start_time = time.time()
     
-    # Usar precisión mixta para acelerar el entrenamiento y reducir el uso de memoria
+    # Configurar la política de precisión mixta para acelerar el entrenamiento
     set_global_policy('mixed_float16')
     print("Usando precisión mixta para el entrenamiento")
+    
+    # Asegurar que el formato de los datos sea compatible con el modelo
+    def ensure_compatible_format(dataset):
+        def process_batch(images, data_dict):
+            # Extraer labels y boxes del diccionario
+            labels = data_dict['classification']
+            boxes = data_dict['regression']
+            
+            # Tomar solo la primera etiqueta y caja para cada imagen en el lote
+            # para compatibilidad con la arquitectura actual del modelo
+            return images, {'classification': labels[:, 0], 'regression': boxes[:, 0, :]}
+        
+        return dataset.map(process_batch)
+    
+    # Aplicar la transformación
+    train_dataset = ensure_compatible_format(train_dataset)
+    val_dataset = ensure_compatible_format(val_dataset)
     
     # Compilar modelo
     model.compile(
@@ -54,18 +71,21 @@ def train_model(model, train_dataset, val_dataset, epochs=10, learning_rate=0.00
         tf.keras.callbacks.ModelCheckpoint(
             os.path.join(models_dir, 'best_model.h5'),
             save_best_only=True,
-            monitor='val_classification_accuracy'
+            monitor='val_classification_accuracy',
+            mode='max'
         ),
         tf.keras.callbacks.EarlyStopping(
             patience=3,
             restore_best_weights=True,
-            monitor='val_classification_accuracy'
+            monitor='val_classification_accuracy',
+            mode='max'
         ),
         tf.keras.callbacks.ReduceLROnPlateau(
             factor=0.2,
             patience=2,
             min_lr=0.00001,
-            monitor='val_classification_accuracy'
+            monitor='val_classification_accuracy',
+            mode='max'
         ),
         tf.keras.callbacks.TensorBoard(
             log_dir=logs_dir,
